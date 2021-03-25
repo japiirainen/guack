@@ -7,5 +7,8 @@ export const config = {
       port: getEnvOrElse('PORT', '4200'),
       name: getEnvOrElse('NAME', 'amole'),
    },
-   DATABASE_URL: getEnvOrElse('DATABASE_URL', 'postgres://quack:salaisuus@localhost:5432/guack-pg'),
+   DATABASE_URL: getEnvOrElse(
+      'DATABASE_URL',
+      'postgres://guackamole:salaisuus@localhost:5432/guack-pg'
+   ),
 }

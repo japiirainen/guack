@@ -20,6 +20,7 @@ export const createPool = async (): Promise<Pool | null> => {
          await client.release()
       }
    } catch (e) {
+      error(e)()
       error('DB connection failed')()
       return null
    }
