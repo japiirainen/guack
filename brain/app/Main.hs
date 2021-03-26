@@ -1,6 +1,7 @@
 module Main where
 
-import Lib
+import           Lib (fib)
 
 main :: IO ()
-main = someFunc
+main =
+    print $ fib 10

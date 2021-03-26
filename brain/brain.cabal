@@ -4,16 +4,16 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 545a9e3ffaf5af8435813c74bf05c1f2c778f657a6e0123550732c8ddd60f7ef
+-- hash: b2baa12a11b85837a4826893c28ecce396bc19e0140dfd3b5ec64538e7b2d04a
 
 name:           brain
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/brain#readme>
-homepage:       https://github.com/githubuser/brain#readme
-bug-reports:    https://github.com/githubuser/brain/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2021 Author name here
+homepage:       https://github.com/japiirainen/guack#readme
+bug-reports:    https://github.com/japiirainen/guack/issues
+author:         Joona Piirainen
+maintainer:     joona.piirainen@gmail.com
+copyright:      2021 Joona Piirainen
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -23,7 +23,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/brain
+  location: https://github.com/japiirainen/guack
 
 library
   exposed-modules:
@@ -32,20 +32,75 @@ library
       Paths_brain
   hs-source-dirs:
       src
+  default-extensions: DataKinds FlexibleContexts GADTs LambdaCase PolyKinds RankNTypes ScopedTypeVariables TypeApplications TypeOperators TypeFamilies TemplateHaskell GeneralizedNewtypeDeriving DeriveGeneric OverloadedStrings
+  ghc-options: -fplugin=Polysemy.Plugin -O2 -flate-specialise -fspecialise-aggressively
   build-depends:
-      base >=4.7 && <5
+      acid-state
+    , aeson
+    , aeson-pretty
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , directory
+    , errors
+    , http-types
+    , lens
+    , mtl
+    , polysemy
+    , polysemy-plugin
+    , process
+    , safecopy
+    , servant
+    , servant-docs
+    , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , servant-swagger-ui-core
+    , sqlite-simple
+    , swagger2
+    , text
+    , time
+    , wai
+    , warp
   default-language: Haskell2010
 
-executable brain-exe
+executable brain
   main-is: Main.hs
   other-modules:
       Paths_brain
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  default-extensions: DataKinds FlexibleContexts GADTs LambdaCase PolyKinds RankNTypes ScopedTypeVariables TypeApplications TypeOperators TypeFamilies TemplateHaskell GeneralizedNewtypeDeriving DeriveGeneric OverloadedStrings
+  ghc-options: -fplugin=Polysemy.Plugin -threaded -rtsopts -with-rtsopts=-N -O2 -flate-specialise -fspecialise-aggressively
   build-depends:
-      base >=4.7 && <5
+      acid-state
+    , aeson
+    , aeson-pretty
+    , base >=4.7 && <5
     , brain
+    , bytestring
+    , containers
+    , directory
+    , errors
+    , http-types
+    , lens
+    , mtl
+    , polysemy
+    , polysemy-plugin
+    , process
+    , safecopy
+    , servant
+    , servant-docs
+    , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , servant-swagger-ui-core
+    , sqlite-simple
+    , swagger2
+    , text
+    , time
+    , wai
+    , warp
   default-language: Haskell2010
 
 test-suite brain-test
@@ -55,8 +110,40 @@ test-suite brain-test
       Paths_brain
   hs-source-dirs:
       test
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  default-extensions: DataKinds FlexibleContexts GADTs LambdaCase PolyKinds RankNTypes ScopedTypeVariables TypeApplications TypeOperators TypeFamilies TemplateHaskell GeneralizedNewtypeDeriving DeriveGeneric OverloadedStrings
+  ghc-options: -fplugin=Polysemy.Plugin -threaded -rtsopts -with-rtsopts=-N -O2 -flate-specialise -fspecialise-aggressively
   build-depends:
-      base >=4.7 && <5
+      QuickCheck
+    , acid-state
+    , aeson
+    , aeson-pretty
+    , base >=4.7 && <5
     , brain
+    , bytestring
+    , containers
+    , directory
+    , errors
+    , hspec
+    , hspec-wai
+    , http-types
+    , lens
+    , mtl
+    , polysemy
+    , polysemy-plugin
+    , process
+    , quickcheck-io
+    , safecopy
+    , servant
+    , servant-docs
+    , servant-server
+    , servant-swagger
+    , servant-swagger-ui
+    , servant-swagger-ui-core
+    , sqlite-simple
+    , swagger2
+    , text
+    , time
+    , wai
+    , wai-extra
+    , warp
   default-language: Haskell2010

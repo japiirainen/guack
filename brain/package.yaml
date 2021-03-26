@@ -1,10 +1,10 @@
 name: brain
 version: 0.1.0.0
-github: 'githubuser/brain'
+github: 'japiirainen/guack'
 license: BSD3
-author: 'Author name here'
-maintainer: 'example@example.com'
-copyright: '2021 Author name here'
+author: 'Joona Piirainen'
+maintainer: 'joona.piirainen@gmail.com'
+copyright: '2021 Joona Piirainen'
 
 extra-source-files:
    - README.md
@@ -19,20 +19,70 @@ extra-source-files:
 # common to point users to the README.md file.
 description: Please see the README on GitHub at <https://github.com/githubuser/brain#readme>
 
+ghc-options:
+   - -fplugin=Polysemy.Plugin
+
+default-extensions:
+   # Recommended for Polysemy
+   - DataKinds
+   - FlexibleContexts
+   - GADTs
+   - LambdaCase
+   - PolyKinds
+   - RankNTypes
+   - ScopedTypeVariables
+   - TypeApplications
+   - TypeOperators
+   - TypeFamilies
+   - TemplateHaskell
+
+   # Deriving extensions
+   - GeneralizedNewtypeDeriving
+   - DeriveGeneric
+
+   # Misc
+   - OverloadedStrings
+
 dependencies:
    - base >= 4.7 && < 5
+   - aeson
+   - aeson-pretty
+   - servant-server
+   - servant
+   - time
+   - wai
+   - warp
+   - bytestring
+   - http-types
+   - text
+   - containers
+   - polysemy
+   - polysemy-plugin
+   - errors
+   - mtl
+   - directory
+   - sqlite-simple
+   - acid-state
+   - safecopy
+
+   # Swagger UI
+   - servant-docs
+   - servant-swagger
+   - servant-swagger-ui
+   - servant-swagger-ui-core
+   - swagger2
+   - lens
+   - process
 
 library:
    source-dirs: src
+   ghc-options: -O2 -flate-specialise -fspecialise-aggressively
 
 executables:
-   brain-exe:
+   brain:
       main: Main.hs
       source-dirs: app
-      ghc-options:
-         - -threaded
-         - -rtsopts
-         - -with-rtsopts=-N
+      ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2 -flate-specialise -fspecialise-aggressively
       dependencies:
          - brain
 
@@ -40,9 +90,12 @@ tests:
    brain-test:
       main: Spec.hs
       source-dirs: test
-      ghc-options:
-         - -threaded
-         - -rtsopts
-         - -with-rtsopts=-N
+      ghc-options: -threaded -rtsopts -with-rtsopts=-N -O2 -flate-specialise -fspecialise-aggressively
       dependencies:
          - brain
+         - hspec
+         - QuickCheck
+         - quickcheck-io
+         - hspec-wai
+         #- hspec-wai-json
+         - wai-extra
