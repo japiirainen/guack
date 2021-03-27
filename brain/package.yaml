@@ -64,6 +64,11 @@ dependencies:
    - sqlite-simple
    - acid-state
    - safecopy
+   - persistent
+   - persistent-template
+   - persistent-sqlite
+   - persistent-postgresql
+   - esqueleto
 
    # Swagger UI
    - servant-docs

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b2baa12a11b85837a4826893c28ecce396bc19e0140dfd3b5ec64538e7b2d04a
+-- hash: 0fced8740b48025083cc03f4de19a9be31a92ff8af0c99e18328c672b89e67db
 
 name:           brain
 version:        0.1.0.0
@@ -43,9 +43,14 @@ library
     , containers
     , directory
     , errors
+    , esqueleto
     , http-types
     , lens
     , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-sqlite
+    , persistent-template
     , polysemy
     , polysemy-plugin
     , process
@@ -82,9 +87,14 @@ executable brain
     , containers
     , directory
     , errors
+    , esqueleto
     , http-types
     , lens
     , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-sqlite
+    , persistent-template
     , polysemy
     , polysemy-plugin
     , process
@@ -123,11 +133,16 @@ test-suite brain-test
     , containers
     , directory
     , errors
+    , esqueleto
     , hspec
     , hspec-wai
     , http-types
     , lens
     , mtl
+    , persistent
+    , persistent-postgresql
+    , persistent-sqlite
+    , persistent-template
     , polysemy
     , polysemy-plugin
     , process
