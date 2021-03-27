@@ -47,6 +47,8 @@ extra-deps:
    - polysemy-plugin-0.2.5.2@sha256:649cea55749c38af841e9f3750ccf65be351e597f3085234e28e3491e78d1f78,3155
    - sqlite-simple-0.4.18.0@sha256:3ceea56375c0a3590c814e411a4eb86943f8d31b93b110ca159c90689b6b39e5,3002
    - direct-sqlite-2.3.26@sha256:04e835402f1508abca383182023e4e2b9b86297b8533afbd4e57d1a5652e0c23,3718
+   - polysemy-zoo-0.7.0.1@sha256:60c2921df95f61d43222a75adde4f330e9510320b416132838a354cd81b4bcc5,3846
+   - compact-0.2.0.0@sha256:9c5785bdc178ea6cf8f514ad35a78c64220e3cdb22216534e4cf496765551c7e,2345
 # Override default flag values for local packages and extra-deps
 # flags: {}
 

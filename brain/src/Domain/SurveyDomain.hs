@@ -3,7 +3,11 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE UndecidableInstances  #-}
-module Domain.SurveyDomain where
+module Domain.SurveyDomain
+( Survey (..)
+, SurveyId (..)
+)
+where
 
 import           Data.Aeson.Types    (FromJSON, ToJSON)
 import           Data.Time

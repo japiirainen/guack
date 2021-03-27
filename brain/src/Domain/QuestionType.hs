@@ -1,6 +1,8 @@
 {-# LANGUAGE DeriveAnyClass  #-}
 {-# LANGUAGE TemplateHaskell #-}
-module Domain.QuestionType where
+module Domain.QuestionType
+(QuestionType (..))
+where
 
 import           Data.Aeson.Types    (FromJSON, ToJSON)
 import           Database.Persist.TH

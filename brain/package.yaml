@@ -59,6 +59,7 @@ dependencies:
    - containers
    - polysemy
    - polysemy-plugin
+   - polysemy-zoo
    - errors
    - mtl
    - directory

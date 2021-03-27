@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f2186216ff3c363809ce90994f270692eebfc8b31e7772497872086ff9770fa7
+-- hash: eac0270a019e83a9fd0f8eef49d2327a649355d8bc38f288bee6266c11331d08
 
 name:           brain
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Domain.SurveyDomain
       Domain.SurveyQuestionDomain
       Lib
+      UseCases.SurveyUseCase
   other-modules:
       Paths_brain
   hs-source-dirs:
@@ -56,6 +57,7 @@ library
     , persistent-template
     , polysemy
     , polysemy-plugin
+    , polysemy-zoo
     , process
     , safecopy
     , servant
@@ -100,6 +102,7 @@ executable brain
     , persistent-template
     , polysemy
     , polysemy-plugin
+    , polysemy-zoo
     , process
     , safecopy
     , servant
@@ -148,6 +151,7 @@ test-suite brain-test
     , persistent-template
     , polysemy
     , polysemy-plugin
+    , polysemy-zoo
     , process
     , quickcheck-io
     , safecopy

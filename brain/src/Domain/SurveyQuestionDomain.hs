@@ -3,12 +3,20 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE StandaloneDeriving    #-}
 {-# LANGUAGE UndecidableInstances  #-}
-module Domain.SurveyQuestionDomain where
+module Domain.SurveyQuestionDomain
+(
+  SurveyQuestion (..)
+, SurveyQuestionId (..)
+, SurveyQuestionMap
+, addQuestion
+, deleteQuestion
+)
+where
 
 
 import           Data.Aeson.Types    (FromJSON, ToJSON)
-import           Data.List           as L
-import           Data.Map.Strict     as M
+import qualified Data.List           as L
+import qualified Data.Map.Strict     as M
 import           Data.Time
 import           Database.Persist
 import           Database.Persist.TH
