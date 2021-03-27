@@ -39,6 +39,7 @@ default-extensions:
    # Deriving extensions
    - GeneralizedNewtypeDeriving
    - DeriveGeneric
+   - QuasiQuotes
 
    # Misc
    - OverloadedStrings

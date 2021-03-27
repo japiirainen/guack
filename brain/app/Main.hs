@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass             #-}
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE EmptyDataDecls             #-}
 {-# LANGUAGE FlexibleContexts           #-}
@@ -13,16 +14,18 @@
 module Main where
 
 import           Control.Monad.IO.Class  (liftIO)
+import           Data.Aeson              (FromJSON, ToJSON)
 import           Database.Persist
 import           Database.Persist.Sqlite
 import           Database.Persist.TH
+import           GHC.Generics
 
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 Person
     name String
     age Int Maybe
-    deriving Show
+    deriving Show Eq Generic ToJSON FromJSON
 BlogPost
     title String
     authorId PersonId
