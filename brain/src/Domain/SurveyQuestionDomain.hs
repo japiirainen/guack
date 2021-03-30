@@ -50,3 +50,6 @@ addQuestion q qs = q : qs
 
 deleteQuestion :: SurveyQuestion -> [SurveyQuestion] -> [SurveyQuestion]
 deleteQuestion = L.delete
+
+isQuestionPossible :: SurveyQuestion -> [SurveyQuestion] -> Bool
+isQuestionPossible (SurveyQuestion newTitle _ _ _ _) = not . any (\q -> surveyQuestionTitle q == newTitle)

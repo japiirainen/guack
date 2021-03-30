@@ -1,4 +1,4 @@
-module UseCases.SurveyQuestionUseCase
+module UseCases.SurveyUseCase
 (
   Dom.Survey (..)
 , Dom.SurveyId (..)
