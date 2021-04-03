@@ -71,6 +71,8 @@ dependencies:
    - persistent-sqlite
    - persistent-postgresql
    - esqueleto
+   - co-log
+   - co-log-polysemy
 
    # Swagger UI
    - servant-docs

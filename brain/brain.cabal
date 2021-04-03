@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: eac0270a019e83a9fd0f8eef49d2327a649355d8bc38f288bee6266c11331d08
+-- hash: 8e588d8288e434d24b03e622521983a7f13f483936e9fecf7b9055bc212b592f
 
 name:           brain
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Domain.SurveyDomain
       Domain.SurveyQuestionDomain
       Lib
+      UseCases.SurveyQuestionUseCase
       UseCases.SurveyUseCase
   other-modules:
       Paths_brain
@@ -44,6 +45,8 @@ library
     , aeson-pretty
     , base >=4.7 && <5
     , bytestring
+    , co-log
+    , co-log-polysemy
     , containers
     , directory
     , errors
@@ -89,6 +92,8 @@ executable brain
     , base >=4.7 && <5
     , brain
     , bytestring
+    , co-log
+    , co-log-polysemy
     , containers
     , directory
     , errors
@@ -136,6 +141,8 @@ test-suite brain-test
     , base >=4.7 && <5
     , brain
     , bytestring
+    , co-log
+    , co-log-polysemy
     , containers
     , directory
     , errors
