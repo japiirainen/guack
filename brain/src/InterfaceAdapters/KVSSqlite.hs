@@ -27,3 +27,4 @@ runKvsAsSQLite :: (Member (Embed IO) r, Member (Input Config) r, Member (Log Str
                     => Sem (KVStore k v : r) a
                     -> Sem r a
 runKvsAsSQLite = undefined
+
