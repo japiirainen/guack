@@ -10,6 +10,7 @@ module Domain.SurveyQuestionDomain
 , SurveyQuestionMap
 , addQuestion
 , deleteQuestion
+, isQuestionPossible
 )
 where
 
@@ -41,6 +42,7 @@ SurveyQuestion
     deriving Show Eq Generic FromJSON ToJSON
 |]
 
+
 -- | a key value map holding a list of questions for a given survey
 type SurveyQuestionMap = M.Map SurveyId [SurveyQuestion]
 
@@ -48,7 +50,7 @@ type SurveyQuestionMap = M.Map SurveyId [SurveyQuestion]
 addQuestion :: SurveyQuestion -> [SurveyQuestion] -> [SurveyQuestion]
 addQuestion q qs = q : qs
 
-deleteQuestion :: SurveyQuestion -> [SurveyQuestion] -> [SurveyQuestion]
+deleteQuestion :: SurveyQuestion-> [SurveyQuestion] -> [SurveyQuestion]
 deleteQuestion = L.delete
 
 isQuestionPossible :: SurveyQuestion -> [SurveyQuestion] -> Bool
