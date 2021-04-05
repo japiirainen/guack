@@ -26,5 +26,9 @@ instance FromRow KeyValueRow where
 runKvsAsSQLite :: (Member (Embed IO) r, Member (Input Config) r, Member (Log String) r, Show k, Read k, ToJSON v, FromJSON v)
                     => Sem (KVStore k v : r) a
                     -> Sem r a
-runKvsAsSQLite = undefined
+runKvsAsSQLite = interpret $ \case
+    where
+        getAction :: (Member (Input Config) r, Member (Embed IO) r, Member (Log String) r, Show k, FromJSON v) => k -> Sem r (Maybe v)
+        getAction key = do
+            log @String $ "getAction: " ++ show key
 
