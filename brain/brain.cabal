@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5585d8d7890f3c76a2c062f96667b5aae2e56eca8af07224653f705c07a38084
+-- hash: ca33e911dac12215b3bc6570d1fe59af1b6b77130b27ce4a5de68246b4b6c260
 
 name:           brain
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Domain.SurveyQuestionDomain
       InterfaceAdapters.Config
       InterfaceAdapters.KVSSqlite
+      InterfaceAdapters.RestService
       Lib
       UseCases.KVS
       UseCases.SurveyQuestionUseCase
