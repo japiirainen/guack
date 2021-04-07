@@ -5,10 +5,11 @@ import { AType, EType, make, opaque } from '@effect-ts/morphic'
 import { makeUuid, NonEmptyString } from './shared'
 
 export const StartDate = make(F => F.nullable(F.date()))
+export const SurveyId = make(F => F.uuid())
 
 const Survey_ = make(F =>
    F.interface({
-      id: F.uuid(),
+      id: SurveyId(F),
       title: NonEmptyString(F),
       active: F.boolean(),
       expires: F.date(),
