@@ -1,7 +1,7 @@
 import * as TE from 'fp-ts/TaskEither'
 import { Pool, PoolClient, PoolConfig } from 'pg'
 import { migrate } from 'postgres-migrations'
-import { DBError } from '../../../common/src/error'
+import { DBError } from '@guack/types'
 import { config } from './config'
 import { error, info } from './log'
 

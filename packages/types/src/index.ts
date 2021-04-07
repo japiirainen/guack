@@ -1,7 +1,30 @@
+import * as t from 'io-ts'
+import { date } from 'io-ts-types'
 import { Response } from 'express'
 import { CustomError } from 'ts-custom-error'
 import { v4 as uuidv4 } from 'uuid'
-import { error } from '../../amole/src/infrastrucure/log'
+
+export const Survey = t.type({
+   id: t.number,
+   active: t.boolean,
+   startDate: date,
+   expires: date,
+   createdOn: date,
+})
+
+export const SurveyQuestion = t.type({
+   id: t.number,
+   title: t.string,
+   surveyId: t.number,
+   type: t.string,
+   choices: t.array(t.string),
+   createdOn: date,
+})
+
+export type Survey = t.TypeOf<typeof Survey>
+export type SurveyQuestion = t.TypeOf<typeof SurveyQuestion>
+
+export type QuestionType = 'CheckBox' | 'LinearScale' | 'MultiChoice' | 'TextField' | 'EmailField'
 
 export interface ApplicationError extends Error {
    /** What HTTP status code to respond with */
@@ -21,7 +44,7 @@ export const processError = (res: Response) => (err: ApplicationError): void => 
       err = new UnexpectedError(err.message)
    }
    if (err.log) {
-      error(err.message)()
+      console.error(err.message)
    }
    res.status(err.status).json({ code: err.code })
 }
