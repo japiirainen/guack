@@ -4,8 +4,9 @@ import { getEnvOrElse } from './utils'
 
 export const config = {
    application: {
-      port: getEnvOrElse('PORT', '4200'),
-      name: getEnvOrElse('NAME', 'amole'),
+      PORT: getEnvOrElse('PORT', '4200'),
+      NAME: getEnvOrElse('NAME', 'amole'),
+      HOST: getEnvOrElse('HOST', '127.0.0.1'),
    },
    DATABASE_URL: getEnvOrElse(
       'DATABASE_URL',

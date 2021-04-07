@@ -44,7 +44,7 @@
    },
    "scripts": {
       "start": "concurrently -k -p \"[{name}]\" -n \"shartall\" -c \"cyan.bold,green.bold,blue.bold\" \"yarn start:api\" \"yarn start:frontend\"",
-      "start:api": "cd apps/amole && yarn start",
+      "start:api": "cd apps/amole && yarn start:patch",
       "start:frontend": "cd apps/selleri && yarn start",
       "postinstall": "patch-package",
       "test-unit": "npm-run-all --parallel test-unit-common",

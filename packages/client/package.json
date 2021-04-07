@@ -4,7 +4,7 @@
    "main": "index.js",
    "license": "MIT",
    "dependencies": {
-      "@effect-ts-demo/todo-types": "*",
+      "@guack/types": "*",
       "@effect-ts/core": "^0.28.8",
       "@effect-ts/monocle": "^0.25.0",
       "@effect-ts/morphic": "^0.26.0",
