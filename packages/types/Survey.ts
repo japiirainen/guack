@@ -2,6 +2,7 @@ import * as O from '@effect-ts/core/Option'
 import * as Lens from '@effect-ts/monocle/Lens'
 import { AType, EType, make, opaque } from '@effect-ts/morphic'
 
+import { SurveyQuestions } from './SurveyQuestion'
 import { makeUuid, NonEmptyString } from './shared'
 
 export const StartDate = make(F => F.nullable(F.date()))
@@ -17,6 +18,7 @@ const Survey_ = make(F =>
       createdAt: F.date(),
       updatedAt: F.date(),
       startDate: StartDate(F),
+      questions: SurveyQuestions(F),
    })
 )
 
@@ -25,12 +27,7 @@ export interface SurveyE extends EType<typeof Survey_> {}
 const Survey0 = opaque<SurveyE, Survey>()(Survey_)
 
 export const Survey = Object.assign(Survey0, {
-   create: (
-      a: Omit<
-         Survey,
-         'id' | 'active' | 'startDate' | 'createdAt' | 'updatedAt' | 'expires'
-      >
-   ) => {
+   create: (a: Pick<Survey, 'title' | 'questions'>) => {
       const createdAt = new Date()
       return Survey.build({
          ...a,

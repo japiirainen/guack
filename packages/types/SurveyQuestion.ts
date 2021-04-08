@@ -2,7 +2,6 @@ import * as Lens from '@effect-ts/monocle/Lens'
 import { AType, EType, make, opaque } from '@effect-ts/morphic'
 
 import { makeUuid, NonEmptyString } from './shared'
-import { SurveyId } from './Survey'
 
 // export const SurveyQuestion = t.type({
 //    id: t.number,
@@ -34,7 +33,6 @@ const SurveyQuestion_ = make(F =>
    F.interface({
       id: F.uuid(),
       title: NonEmptyString(F),
-      surveyId: SurveyId(F),
       type: NonEmptyString(F),
       choices: Choices(F),
       createdAt: F.date(),
@@ -46,9 +44,9 @@ export interface SurveyQuestion extends AType<typeof SurveyQuestion_> {}
 export interface SurveyQuestionE extends EType<typeof SurveyQuestion_> {}
 export const SurveyQuestion0 = opaque<SurveyQuestionE, SurveyQuestion>()(SurveyQuestion_)
 export const SurveyQuestion = Object.assign(SurveyQuestion_, {
-   create: (a: Omit<SurveyQuestion, 'id' | 'createdAt' | 'updatedAt'>) => {
+   create: (a: Pick<SurveyQuestion, 'title' | 'type' | 'choices'>) => {
       const createdAt = new Date()
-      SurveyQuestion.build({
+      return SurveyQuestion.build({
          ...a,
          id: makeUuid(),
          createdAt,
@@ -56,3 +54,5 @@ export const SurveyQuestion = Object.assign(SurveyQuestion_, {
       })
    },
 })
+
+export const SurveyQuestions = make(F => F.array(SurveyQuestion(F)))

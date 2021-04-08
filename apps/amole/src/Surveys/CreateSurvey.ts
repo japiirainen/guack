@@ -7,7 +7,7 @@ import * as SurveyContext from './SurveysContext'
 
 export const handle = (_: Request) =>
    pipe(
-      T.effectTotal(() => Survey.create({ ..._ })),
+      T.effectTotal(() => Survey.create({ ..._, questions: [] })),
       T.tap(SurveyContext.add),
       T.map(s => ({ id: s.id }))
    )
