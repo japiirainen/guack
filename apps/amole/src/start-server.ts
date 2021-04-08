@@ -5,9 +5,9 @@ import * as N from '@effect-ts/node/Runtime'
 import { urlencoded, json } from 'body-parser'
 import cors from 'cors'
 
+import { routes as surveyRoutes } from './Surveys/routes'
 import { config } from './infrastrucure/config'
 import { info } from './infrastrucure/log'
-import { routes as surveyRoutes } from './Surveys/routes'
 
 const {
    application: { HOST, NAME, PORT },

@@ -12,7 +12,7 @@
       "@effect-ts/node": "^0.17.3",
       "@effect-ts/tracing-plugin": "^0.8.4",
       "@guack/client": "*",
-      "@guack/types": "0.0.1",
+      "@guack/types": "*",
       "aws-sdk": "^2.778.0",
       "bcrypt": "^5.0.0",
       "body-parser": "^1.19.0",
