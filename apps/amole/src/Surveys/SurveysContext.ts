@@ -43,7 +43,7 @@ export function find(id: UUID) {
 export function get(id: UUID) {
    return pipe(
       find(id),
-      T.chain(O.fold(() => T.fail(new NotFoundError('Task', id)), T.succeed))
+      T.chain(O.fold(() => T.fail(new NotFoundError('Survey', id)), T.succeed))
    )
 }
 

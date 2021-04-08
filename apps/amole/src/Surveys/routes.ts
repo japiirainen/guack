@@ -10,7 +10,7 @@ import * as GetSurveys from './GetSurveys'
 import * as UpdateSurvey from './UpdateSurvey'
 
 export const routes = T.tuple(
-   Ex.get('/survey/:id', makeRequestHandler(GetSurvey)),
+   Ex.get('/surveys/:id', makeRequestHandler(GetSurvey)),
    Ex.get('/surveys', makeRequestHandler(GetSurveys)),
    Ex.patch('/surveys/:id', makeRequestHandler(UpdateSurvey)),
    Ex.delete('/surveys/:id', makeRequestHandler(DeleteSurvey)),
