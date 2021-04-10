@@ -3,6 +3,7 @@
    "version": "0.1.0",
    "private": true,
    "dependencies": {
+      "@guack/client": "*",
       "@babel/core": "7.12.3",
       "@effect-ts/core": "^0.28.13",
       "@effect-ts/monocle": "^0.25.4",
@@ -173,7 +174,6 @@
       "@types/react-router": "^5.1.13",
       "@types/react-router-dom": "^5.1.7",
       "@types/styled-components": "^5.1.9",
-      "eslint-plugin-react": "^7.23.1",
       "eslint-plugin-react-hooks": "^4.2.0"
    }
 }

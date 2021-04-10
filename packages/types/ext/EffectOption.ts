@@ -49,7 +49,10 @@ export const encaseNullableTaskErrorIfNull = <T, E>(
    taskCreator: F.Lazy<Promise<T | null>>,
    makeError: F.Lazy<E>
 ): T.Effect<unknown, E, NonNullable<T>> =>
-   pipe(encaseNullableTask(taskCreator), T.chain(O.fold(() => T.fail(makeError()), T.succeed)))
+   pipe(
+      encaseNullableTask(taskCreator),
+      T.chain(O.fold(() => T.fail(makeError()), T.succeed))
+   )
 //export const encaseEither = flow(T.encaseEither, fromEffect)
 
 export const map_ = <R, E, A, B>(
@@ -82,7 +85,9 @@ export const ap_ = <R, E, A, B, R2, E2>(
 
 export const apFirst: <R, E, B>(
    fb: EffectOption<R, E, B>
-) => <A, R2, E2>(fa: EffectOption<R2, E2, A>) => EffectOption<R & R2, E | E2, A> = fb => fa =>
+) => <A, R2, E2>(
+   fa: EffectOption<R2, E2, A>
+) => EffectOption<R & R2, E | E2, A> = fb => fa =>
    ap_(
       map_(fa, a => () => a),
       fb
