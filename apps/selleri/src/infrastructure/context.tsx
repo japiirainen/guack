@@ -6,11 +6,14 @@ import { Exit } from '@effect-ts/system/Exit'
 import { Semaphore } from '@effect-ts/system/Semaphore'
 import { ApiConfig } from '@guack/client'
 import * as SurveyClient from '@guack/client'
+import { StylesProvider } from '@material-ui/core'
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns'
 import LocalizationProvider from '@material-ui/lab/LocalizationProvider'
+import { StyledEngineProvider } from '@material-ui/styled-engine'
 import { datumEither } from '@nll/datum'
 import React, { createContext, ReactNode, useContext, useEffect, useMemo } from 'react'
 
+import GlobalStyle from './GlobalStyle'
 import { useConfig } from './config'
 
 function makeLayers(config: ApiConfig) {
@@ -115,12 +118,17 @@ export const LiveFetchContext = ({ children }: { children: ReactNode }) => {
    return <FetchContext.Provider value={ctx}>{children}</FetchContext.Provider>
 }
 
-export function withContext({ children }: { children: ReactNode }) {
+export function WithContext({ children }: { children: ReactNode }) {
    return (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-         <LiveServiceContext>
-            <LiveFetchContext>{children}</LiveFetchContext>
-         </LiveServiceContext>
-      </LocalizationProvider>
+      <StyledEngineProvider injectFirst>
+         <StylesProvider injectFirst>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+               <LiveServiceContext>
+                  <GlobalStyle />
+                  <LiveFetchContext>{children}</LiveFetchContext>
+               </LiveServiceContext>
+            </LocalizationProvider>
+         </StylesProvider>
+      </StyledEngineProvider>
    )
 }

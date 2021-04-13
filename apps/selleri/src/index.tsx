@@ -1,13 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import './index.css'
-import App from './App'
+import { App } from './App'
+import { WithContext } from './infrastructure/context'
 import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
    <React.StrictMode>
-      <App />
+      <WithContext>
+         <App />
+      </WithContext>
    </React.StrictMode>,
    document.getElementById('root')
 )

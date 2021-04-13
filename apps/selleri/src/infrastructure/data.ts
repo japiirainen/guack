@@ -286,6 +286,7 @@ export function shallowEqual(objA: any, objB: any) {
    ) {
       return false
    }
+
    const keysA = Object.keys(objA)
    const keysB = Object.keys(objB)
 
@@ -293,36 +294,34 @@ export function shallowEqual(objA: any, objB: any) {
       return false
    }
 
-   // Test for A's keys different form B.
+   // Test for A's keys different from B.
    for (let i = 0; i < keysA.length; i++) {
       const propA = objA[keysA[i]]
       const propB = objB[keysA[i]]
-      if (
-         !Object.hasOwnProperty.call(objA, keysA[i]) ||
-         (!Object.is(propA, propB) &&
-            (!propA._tag ||
-               (propA._tag !== 'Some' &&
-                  propA._tag !== 'None' &&
-                  propA._tag !== 'Left' &&
-                  propA._tag !== 'Right')))
-      ) {
+      if (!Object.hasOwnProperty.call(objB, keysA[i])) {
          return false
       }
-
-      if (
-         typeof propA === 'object' &&
-         typeof propB === 'object' &&
-         !(propA === null || propB === null)
-      ) {
-         if (O.isSome(propA) && !Object.is(propA.value, propB.value)) {
-            return false
-         }
+      if (!Object.is(propA, propB)) {
          if (
-            (E.isLeft(propA) && !Object.is(propA.left, propB.left)) ||
-            (E.isRight(propA) && !Object.is(propA.right, propB.right))
+            typeof propA !== 'object' ||
+            typeof propB !== 'object' ||
+            propA === null ||
+            propB === null ||
+            !propA._tag ||
+            propA._tag !== propB._tag
          ) {
             return false
          }
+
+         if (
+            O.isNone(propA) ||
+            (O.isSome(propA) && Object.is(propA.value, propB.value)) ||
+            (E.isLeft(propA) && Object.is(propA.left, propB.left)) ||
+            (E.isRight(propA) && Object.is(propA.right, propB.right))
+         ) {
+            return true
+         }
+         return false
       }
    }
 

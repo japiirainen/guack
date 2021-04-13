@@ -4,13 +4,13 @@
    "private": true,
    "dependencies": {
       "@babel/core": "7.12.3",
-      "@guack/types": "*",
-      "@guack/client": "*",
       "@effect-ts/core": "^0.29.0",
       "@effect-ts/monocle": "^0.26.1",
       "@effect-ts/morphic": "^0.28.0",
       "@emotion/react": "^11.1.5",
       "@emotion/styled": "^11.1.5",
+      "@guack/client": "*",
+      "@guack/types": "*",
       "@material-ui/core": "next",
       "@material-ui/icons": "next",
       "@material-ui/lab": "next",
@@ -67,6 +67,7 @@
       "prompts": "2.4.0",
       "react": "^17.0.2",
       "react-app-polyfill": "^2.0.0",
+      "react-beautiful-dnd": "^13.1.0",
       "react-dev-utils": "^11.0.3",
       "react-dom": "^17.0.2",
       "react-refresh": "^0.8.3",
@@ -172,6 +173,7 @@
       ]
    },
    "devDependencies": {
+      "@types/react-beautiful-dnd": "^13.0.0",
       "@types/react-router": "^5.1.13",
       "@types/react-router-dom": "^5.1.7",
       "@types/styled-components": "^5.1.9",
