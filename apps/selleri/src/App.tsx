@@ -3,9 +3,7 @@ import qs from 'querystring'
 import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 
-import Surveys from './Surveys'
-import logo from './logo.svg'
-import './App.css'
+import { Surveys } from './Surveys'
 
 function getQueryParam(search: qs.ParsedUrlQuery, param: string) {
    const v = search[param]
@@ -17,28 +15,28 @@ function getQueryParam(search: qs.ParsedUrlQuery, param: string) {
 
 export function App() {
    return (
-      <div className="App">
-         <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-         </header>
+      <div>
+         <header></header>
          <section id="main">
             <BrowserRouter>
                <Switch>
                   <Route
                      path="/:category"
                      render={({
-                        location,
+                        // location,
                         match: {
                            params: { category },
                         },
                      }) => {
                         const pars = qs.parse(location.search.slice(1))
+                        console.log(category)
+                        console.log(getQueryParam(pars, 'order'))
 
                         return (
                            <Surveys
-                              category={category}
-                              order={getQueryParam(pars, 'order')}
-                              orderDirection={getQueryParam(pars, 'orderDirection')}
+                           // category={category}
+                           // order={getQueryParam(pars, 'order')}
+                           // orderDirection={getQueryParam(pars, 'orderDirection')}
                            />
                         )
                      }}
