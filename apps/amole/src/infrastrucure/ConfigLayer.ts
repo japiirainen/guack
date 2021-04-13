@@ -6,6 +6,7 @@ import { tag } from '@effect-ts/system/Has'
 import dotenv from 'dotenv'
 
 dotenv.config()
+import { logInfo } from './LogLayer'
 import { getEnvOrElse } from './utils'
 
 export interface AppConfig {
@@ -30,10 +31,10 @@ export const AppConfigLive = pipe(
                'postgres://guackamole:salaisuus@localhost:5432/guack-pg'
             )
          ),
-         close: msg => T.effectTotal(() => console.log(msg)),
+         close: msg => T.effectTotal(() => logInfo(msg)),
       })
    ),
-   M.make(_ => _.close('closing app config')),
+   M.make(_ => _.close('closing managed')),
    L.fromManaged(AppConfig)
 )
 
