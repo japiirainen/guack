@@ -1,8 +1,8 @@
 import * as TE from 'fp-ts/TaskEither'
 import { Pool, PoolClient, PoolConfig } from 'pg'
 import { migrate } from 'postgres-migrations'
-import { DBError } from '@guack/types'
-import { config } from './config'
+
+import { config } from './ConfigLayer'
 import { error, info } from './log'
 
 export const createPool = async (): Promise<Pool | null> => {

@@ -1,9 +1,9 @@
 import * as C from 'fp-ts/lib/Console'
-import { IO } from 'fp-ts/lib/IO'
-import * as L from 'logging-ts/lib/IO'
 import * as D from 'fp-ts/lib/Date'
+import { IO } from 'fp-ts/lib/IO'
 import { chain } from 'fp-ts/lib/IO'
 import { pipe } from 'fp-ts/pipeable'
+import * as L from 'logging-ts/lib/IO'
 
 type Level = 'Debug' | 'Info' | 'Warning' | 'Error'
 
@@ -20,7 +20,10 @@ const getLoggerEntry = (prefix: string): L.LoggerIO<Entry> => entry =>
    C.log(`${prefix}: ${showEntry(entry)}`)
 
 const debugLogger = L.filter(getLoggerEntry('debug.log'), e => e.level === 'Debug')
-const productionLogger = L.filter(getLoggerEntry('production.log'), e => e.level !== 'Debug')
+const productionLogger = L.filter(
+   getLoggerEntry('production.log'),
+   e => e.level !== 'Debug'
+)
 
 const logger = L.getMonoid<Entry>().concat(debugLogger, productionLogger)
 
