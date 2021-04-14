@@ -4,6 +4,7 @@ import * as T from '@effect-ts/core/Effect'
 import { flow, pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as Sy from '@effect-ts/core/Sync'
+import * as Ref from '@effect-ts/core/Effect/Ref'
 import { UUID } from '@effect-ts/morphic/Algebra/Primitives'
 import { encode } from '@effect-ts/morphic/Encoder'
 import { strict } from '@effect-ts/morphic/Strict'
@@ -13,6 +14,7 @@ import * as EO from '@guack/types/ext/EffectOption'
 import { NonEmptyString } from '@guack/types/shared'
 
 import { NotFoundError } from '../infrastrucure/errors'
+import { Ord } from '@effect-ts/core/Ord'
 
 const encodeSurvey = flow(strict(Survey).shrink, Sy.chain(encode(Survey)))
 const runEncodeSurvey = flow(encodeSurvey, Sy.run)
@@ -82,13 +84,11 @@ export function get(id: UUID) {
    )
 }
 
-export function all() {
-   return pipe(
-      T.effectTotal(() => [...surveys.values()] as const),
-      T.chain(T.forEach(decodeSurvey)),
-      T.orDie
-   )
-}
+export const all = pipe(
+   T.effectTotal(() => [...surveys.values()] as const),
+   T.chain(T.forEach(decodeSurvey)),
+   T.orDie
+)
 
 export function add(s: Survey) {
    return T.effectTotal(() => {
@@ -100,4 +100,26 @@ export function remove(s: Survey) {
    return T.effectTotal(() => {
       surveys = surveys['|>'](Map.remove(s.id))
    })
+}
+const orderRef = Ref.unsafeMakeRef<A.Array<UUID>>([])
+
+export const getOrder = orderRef.get
+export const setOrder = orderRef.set
+
+export const allOrdered = pipe(
+   T.structPar({ surveys: all, order: getOrder }),
+   T.map(({ order, surveys }) => orderSurveys(surveys, order))
+)
+
+function orderSurveys(a: A.Array<Survey>, order: A.Array<UUID>) {
+   return A.reverse(a)['|>'](A.sort(makeOrd(order)))
+}
+
+function makeOrd(sortingArr: A.Array<UUID>): Ord<Survey> {
+   return {
+      compare: (a, b) => {
+         const diff = sortingArr.indexOf(a.id) - sortingArr.indexOf(b.id)
+         return diff > 1 ? 1 : diff < 0 ? -1 : 0
+      },
+   }
 }

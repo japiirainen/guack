@@ -11,9 +11,14 @@ import * as DeleteSurvey from './DeleteSurvey'
 import * as GetSurvey from './GetSurvey'
 import * as GetSurveys from './GetSurveys'
 import * as UpdateSurvey from './UpdateSurvey'
+import * as SetSurveyOrder from './SetSurveyOrder'
 
-const decodeGetSurveysResponse = flow(decode(GetSurveys.Response), mapResponseError)
-export const getSurveys = pipe(fetchApi('/surveys'), T.chain(decodeGetSurveysResponse))
+export { CreateSurvey, DeleteSurvey, GetSurvey, GetSurveys, UpdateSurvey, SetSurveyOrder }
+
+export const getSurveys = pipe(
+   fetchApi('/surveys'),
+   T.chain(flow(decode(GetSurveys.Response), mapResponseError))
+)
 
 const decodeGetSurveyResponse = flow(decode(GetSurvey.Response), mapResponseError)
 export const findSurvey = (id: UUID) =>
@@ -33,9 +38,3 @@ const del = fetchApi3(DeleteSurvey, 'DELETE')
 export function deleteSurvey(req: DeleteSurvey.Request) {
    return del(`/surveys/${req.id}`)(req)
 }
-
-export * as CreateSurvey from './CreateSurvey'
-export * as DeleteSurvey from './DeleteSurvey'
-export * as GetSurvey from './GetSurvey'
-export * as GetSurveys from './GetSurveys'
-export * as UpdateSurvey from './UpdateSurvey'
