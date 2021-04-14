@@ -1,5 +1,5 @@
 {
-   "name": "@guack/amole",
+   "name": "@guack/api",
    "version": "0.0.1",
    "main": "dist/amole/src/index.js",
    "author": "Joona Piirainen",

@@ -10,4 +10,5 @@ export const ApiConfig = tag<ApiConfig>()
 
 export const getConfig = T.accessServiceM(ApiConfig)
 
-export const LiveApiConfig = (config: ApiConfig) => Layer.fromFunction(ApiConfig)(() => config)
+export const LiveApiConfig = (config: ApiConfig) =>
+   Layer.fromFunction(ApiConfig)(() => config)

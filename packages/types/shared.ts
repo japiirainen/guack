@@ -1,7 +1,14 @@
 import type { Branded } from '@effect-ts/core/Branded'
 import { constVoid } from '@effect-ts/core/Function'
 import * as Sy from '@effect-ts/core/Sync'
-import { make, FastCheckURI, AType, DecoderURI, EncoderURI, opaque } from '@effect-ts/morphic'
+import {
+   make,
+   FastCheckURI,
+   AType,
+   DecoderURI,
+   EncoderURI,
+   opaque,
+} from '@effect-ts/morphic'
 import { UUID } from '@effect-ts/morphic/Algebra/Primitives'
 import { decode } from '@effect-ts/morphic/Decoder'
 import { flow } from '@effect-ts/system/Function'

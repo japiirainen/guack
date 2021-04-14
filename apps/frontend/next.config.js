@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+// eslint-disable-next-line no-undef
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withTM = require('next-transpile-modules')([
    'fp-ts',
    '@nll/datum',
@@ -5,6 +8,7 @@ const withTM = require('next-transpile-modules')([
    '@guack/types',
 ])
 
+// eslint-disable-next-line no-undef
 const { API_ROOT = 'http://localhost:3330' } = process.env
 
 // eslint-disable-next-line no-undef
