@@ -1,2 +1,2 @@
 #!/bin/sh
-yarn --ignore-engines && cd apps/selleri && yarn --ignore-engines && cd ../amole && yarn --ignore-engines
+yarn --ignore-engines && cd apps/api && yarn --ignore-engines && cd ../frontend && yarn --ignore-engines

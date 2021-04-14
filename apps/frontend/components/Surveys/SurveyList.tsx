@@ -17,7 +17,7 @@ import { memo } from '../../data'
 
 import * as Survey from './Survey'
 import { updateSurveyIndex } from './Survey'
-import { StateMixinProps, StateMixin, ClickableMixin, ClickableMixin } from './components'
+import { StateMixinProps, StateMixin, ClickableMixin } from './components'
 import { useModifySurveys, useSurveyCommands } from './data'
 import { withLoading } from './utils'
 

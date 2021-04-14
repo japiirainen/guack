@@ -83,9 +83,8 @@
    "scripts": {
       "test": "NODE_ENV=testing jest --watchAll",
       "test:coverage": "NODE_ENV=testing jest --coverage",
-      "start": "node --enable-source-maps .",
       "start:dev": "npm-run-all --parallel watch apidocs:dev",
-      "start:patch": "TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling NODE_ENV=development nodemon --watch . --watch ../../packages --exec ts-node -r tsconfig-paths/register --transpile-only ./src/start-server.ts",
+      "start": "TSC_WATCHFILE=UseFsEventsWithFallbackDynamicPolling NODE_ENV=development nodemon --watch . --watch ../../packages --exec ts-node -r tsconfig-paths/register --transpile-only ./src/start-server.ts",
       "build": "tsc",
       "watch": "tsc-watch --onSuccess \"node --enable-source-maps .\" --preserveWatchOutput",
       "apidocs": "typera-openapi --prettify src/api-routes.ts",

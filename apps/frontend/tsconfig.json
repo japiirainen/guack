@@ -16,6 +16,6 @@
       "noEmit": true,
       "jsx": "preserve"
    },
-   "include": ["next, "components/Surveys", "public/GlobalStyle.tsx", "public/data.ts", "public/context.tsx", "public/config.ts"-env.d.ts", "**/*.ts", "**/*.tsx"],
+   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
    "exclude": ["node_modules"]
 }
