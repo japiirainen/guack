@@ -55,11 +55,22 @@ export const Survey = Object.assign(Survey0, {
    changeExpireDate: Survey0.lens['|>'](Lens.prop('expires')).set(O.some(new Date())),
 })
 
+const SurveyList_ = make(F =>
+   F.interface({
+      title: NonEmptyString(F),
+      surveys: F.array(Survey(F)),
+   })
+)
+
+export interface SurveyList extends AType<typeof SurveyList_> {}
+export interface SurveyListE extends EType<typeof SurveyList_> {}
+export const SurveyList = opaque<SurveyListE, SurveyList>()(SurveyList_)
+
 // FE; surveylists contain surveys. BE; surveys have survey.listID
 const SurveyListGroup_ = make(F =>
    F.interface({
       title: NonEmptyString(F),
-      surveys: F.array(Survey(F)),
+      surveys: F.array(SurveyList(F)),
    })
 )
 

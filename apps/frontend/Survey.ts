@@ -1,6 +1,7 @@
 import { flow } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import { Lens } from '@effect-ts/monocle'
+import { AType, make, makeADT } from '@effect-ts/morphic'
 import * as S from '@guack/types'
 import * as A from '@guack/types/ext/Array'
 import { NonEmptyString } from '@guack/types/shared'
@@ -56,5 +57,33 @@ export const Survey = Object.assign({}, S.Survey, {
 })
 
 export type Survey = S.Survey
+
+export const SurveyList = make(F =>
+   F.intersection(S.SurveyList(F), F.interface({ _tag: F.stringLiteral('SurveyList') }))()
+)
+export const SurveyListGroup = make(F =>
+   F.intersection(
+      S.SurveyListGroup(F),
+      F.interface({ _tag: F.stringLiteral('SurveyListGroup') })
+   )()
+)
+
+export const SurveyListView = make(F =>
+   F.intersection(
+      S.SurveyList(F),
+      F.interface({
+         count: F.number(),
+         slug: NonEmptyString(F),
+         _tag: F.stringLiteral('SurveyListView'),
+      })
+   )()
+)
+
+export const FolderListADT = makeADT('_tag')({
+   SurveyList,
+   SurveyListGroup,
+   SurveyListView,
+})
+export type FolderListADT = AType<typeof FolderListADT>
 
 export * from '@guack/types/Survey'

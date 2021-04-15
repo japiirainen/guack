@@ -1,6 +1,6 @@
 import { NonEmptyString } from '@guack/types/shared'
 import { TextField, TextFieldProps } from '@material-ui/core'
-import React, { useState, useEffect, MouseEventHandler } from 'react'
+import React, { useState, useEffect, MouseEventHandler, useRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import { onSuccess, PromiseExit } from '../../data'
@@ -19,6 +19,53 @@ export function ClickableMixin<El>({ onClick }: ClickableMixinProps<El>) {
       css`
          cursor: pointer;
       `
+   )
+}
+
+export function TextFieldWithEditor({
+   children,
+   initialValue,
+   loading,
+   multiline,
+   onChange,
+   renderTextField: Field = TextField,
+}: {
+   children: React.ReactNode
+   onChange: (note: string, onSuc: () => void) => void
+   loading: boolean
+   initialValue: string
+   multiline?: boolean
+   renderTextField?: (p: TextFieldProps) => JSX.Element
+}) {
+   const [text, setText] = useState(initialValue)
+   const [editing, setEditing] = useState(false)
+   const editor = useRef<HTMLInputElement | undefined>(undefined)
+   useEffect(() => {
+      if (editing) {
+         editor?.current?.focus()
+      }
+   }, [editing])
+   useEffect(() => {
+      setText(initialValue)
+   }, [initialValue])
+
+   const submit = () => onChange(text, () => setEditing(false))
+
+   return editing ? (
+      <Field
+         size="small"
+         multiline={multiline}
+         inputRef={editor}
+         value={text}
+         disabled={loading}
+         onKeyDown={multiline ? undefined : evt => evt.key === 'Enter' && submit()}
+         onBlur={submit}
+         onChange={evt => setText(evt.target.value)}
+      />
+   ) : (
+      <Clickable style={{ display: 'inline' }} onClick={() => setEditing(true)}>
+         {children}
+      </Clickable>
    )
 }
 
