@@ -1,17 +1,28 @@
+import { ParsedUrlQuery } from 'querystring'
+
 import { Fiber, Semaphore } from '@effect-ts/core'
 import * as T from '@effect-ts/core/Effect'
 import { Cause } from '@effect-ts/core/Effect/Cause'
 import * as Ex from '@effect-ts/core/Effect/Exit'
 import { Exit } from '@effect-ts/core/Effect/Exit'
 import * as E from '@effect-ts/core/Either'
-import { pipe } from '@effect-ts/core/Function'
+import { pipe, flow } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
+import * as Sy from '@effect-ts/core/Sync'
+import { AType, M } from '@effect-ts/morphic'
+import { decode } from '@effect-ts/morphic/Decoder'
 import * as Arr from '@guack/types/ext/Array'
 import { datumEither } from '@nll/datum'
 import { DatumEither } from '@nll/datum/DatumEither'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 import { Fetcher, useFetchContext } from './context'
+import { typedKeysOf } from './utils'
+
+export type WithLoading<Fnc> = Fnc & {
+   loading: boolean
+}
 
 export function useFetch<R, E, A, Args extends readonly unknown[]>(
    fetchFnc: (...args: Args) => T.Effect<R, E, A>
@@ -367,4 +378,54 @@ function convertDep(x: any) {
       : E.isRight(x)
       ? x.right
       : x
+}
+
+export function getQueryParam(search: ParsedUrlQuery, param: string) {
+   const v = search[param]
+   if (Array.isArray(v)) {
+      return v[0]
+   }
+   return v ?? null
+}
+
+export const parseOption = <E, A>(t: M<{}, E, A>) => {
+   const dec = decode(t)
+   return (_: E) => dec(_)['|>'](Sy.runEither)['|>'](O.fromEither)
+}
+export const getQueryParamO = flow(getQueryParam, O.fromNullable)
+
+export const useRouteParam = <A>(t: M<{}, string, A>, key: string) => {
+   const r = useRouter()
+   return getQueryParamO(r.query, key)['|>'](O.chain(parseOption(t)))
+}
+
+export function useReportLoading(name: string) {
+   return useEffect(() => {
+      console.log('$$$ loaded', name)
+
+      return () => console.log('$$$ unloaded', name)
+   }, [name])
+}
+
+export function withLoading<Fnc>(fnc: Fnc, loading: boolean): WithLoading<Fnc> {
+   return Object.assign(fnc, { loading })
+}
+
+export const useRouteParams = <NER extends Record<string, M<{}, string, any>>>(
+   t: NER // enforce non empty
+): {
+   [K in keyof NER]: O.Option<AType<NER[K]>>
+} => {
+   const r = useRouter()
+   return typedKeysOf(t).reduce(
+      (prev, cur) => {
+         prev[cur] = getQueryParamO(r.query, cur as string)['|>'](
+            O.chain(parseOption(t[cur]))
+         )
+         return prev
+      },
+      {} as {
+         [K in keyof NER]: AType<NER[K]>
+      }
+   )
 }
