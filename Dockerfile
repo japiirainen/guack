@@ -1,4 +1,3 @@
-
 # Install dependencies only when needed
 FROM node:alpine AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
@@ -14,8 +13,8 @@ RUN yarn install --frozen-lockfile
 # Rebuild the source code only when needed
 FROM node:alpine AS builder
 WORKDIR /app
-COPY . .
 COPY --from=deps /app/node_modules ./node_modules
+COPY . .
 RUN yarn build
 
 # Production image, copy all the files and run next
@@ -25,14 +24,14 @@ WORKDIR /app
 ENV NODE_ENV production
 
 # You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/frontend/node_modules ./apps/frontend/node_modules
 COPY --from=builder /app/apps/api ./apps/api
 COPY --from=builder /app/packages ./packages
-COPY --from=builder /app/apps/frontend/next.config.js ./apps/frontend/
 COPY --from=builder /app/apps/frontend/public ./apps/frontend/public
+COPY --from=builder /app/apps/frontend/next.config.js ./apps/frontend/
 COPY --from=builder /app/apps/frontend/.next ./apps/frontend/.next
-COPY --from=builder /app/apps/frontend/node_modules ./apps/frontend/node_modules
 COPY --from=builder /app/apps/frontend/package.json ./apps/frontend/
-COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/tsconfig.base.json ./
 

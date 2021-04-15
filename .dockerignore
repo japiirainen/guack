@@ -1,2 +1,7 @@
 Dockerfile
 node_modules/
+.next/
+.git/
+.vscode/
+*.log
+docs/
