@@ -38,3 +38,5 @@ const del = fetchApi3(DeleteSurvey, 'DELETE')
 export function deleteSurvey(req: DeleteSurvey.Request) {
    return del(`/surveys/${req.id}`)(req)
 }
+
+export const setSurveysOrder = fetchApi3(SetSurveyOrder, 'POST')('/surveys-order')

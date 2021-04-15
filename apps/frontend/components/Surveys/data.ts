@@ -9,10 +9,9 @@ import * as EO from '@guack/types/ext/EffectOption'
 import { NonEmptyString } from '@guack/types/shared'
 import { useCallback, useEffect, useMemo } from 'react'
 
+import * as Survey from '../../Survey'
 import { useServiceContext } from '../../context'
 import { useFetch, useModify, useQuery } from '../../data'
-
-import * as Survey from './Survey'
 
 const fetchLatestSurveys = constant(
    SurveyClient.Surveys.getSurveys['|>'](T.map(r => r.surveys))
