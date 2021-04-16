@@ -93,6 +93,23 @@ export function useGetSurvey() {
    ] as const
 }
 
+export function useSurveyCommandsResolverd(s: Survey.Survey) {
+   const {
+      setTitle,
+      updateResult,
+      updateSurveyQuestionIndex,
+      updateSurveyQuestionTitle,
+      ...rest
+   } = useSurveyCommands(s.id)
+
+   return {
+      ...rest,
+      setTitle: setTitle(s),
+      updateSurveyQuestionIndex: updateSurveyQuestionIndex(s),
+      updateSurveyQuestionTitle: updateSurveyQuestionTitle(s),
+   }
+}
+
 export function useSurveyCommands(id: UUID) {
    const modifySurveys = useModifySurveys()
 
