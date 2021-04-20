@@ -18,6 +18,7 @@ import { Ord } from '@effect-ts/core/Ord'
 
 const encodeSurvey = flow(strict(Survey).shrink, Sy.chain(encode(Survey)))
 const runEncodeSurvey = flow(encodeSurvey, Sy.run)
+
 let surveys: Map.Map<UUID, SurveyE> = pipe(
    [
       Survey.create({
@@ -72,7 +73,7 @@ let surveys: Map.Map<UUID, SurveyE> = pipe(
 const { decode: decodeSurvey } = strictDecoder(Survey)
 export function find(id: UUID) {
    return pipe(
-      T.effectTotal(() => O.fromNullable(surveys.get(id))),
+      T.succeedWith(() => O.fromNullable(surveys.get(id))),
       EO.chain(flow(decodeSurvey, EO.fromEffect, T.orDie))
    )
 }
@@ -85,19 +86,19 @@ export function get(id: UUID) {
 }
 
 export const all = pipe(
-   T.effectTotal(() => [...surveys.values()] as const),
+   T.succeedWith(() => [...surveys.values()] as const),
    T.chain(T.forEach(decodeSurvey)),
    T.orDie
 )
 
 export function add(s: Survey) {
-   return T.effectTotal(() => {
+   return T.succeedWith(() => {
       surveys = surveys['|>'](Map.insert(s.id, runEncodeSurvey(s)))
    })
 }
 
 export function remove(s: Survey) {
-   return T.effectTotal(() => {
+   return T.succeedWith(() => {
       surveys = surveys['|>'](Map.remove(s.id))
    })
 }

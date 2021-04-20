@@ -77,7 +77,7 @@ export function useGetSurvey() {
             pipe(
                findSurvey(id),
                EO.tap(s =>
-                  T.effectTotal(() =>
+                  T.succeedWith(() =>
                      modifySurveys(surveys =>
                         pipe(
                            A.findIndex_(surveys, x => x.id === s.id),

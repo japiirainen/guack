@@ -20,18 +20,18 @@ export interface AppConfig {
 export const AppConfig = tag<AppConfig>()
 
 export const AppConfigLive = pipe(
-   T.effectTotal(
+   T.succeedWith(
       (): AppConfig => ({
-         appPort: T.effectTotal(() => getEnvOrElse('PORT', '4200')),
-         appName: T.effectTotal(() => getEnvOrElse('PORT', 'amole')),
-         appHost: T.effectTotal(() => getEnvOrElse('PORT', '127.0.0.1')),
-         pgURL: T.effectTotal(() =>
+         appPort: T.succeedWith(() => getEnvOrElse('PORT', '4200')),
+         appName: T.succeedWith(() => getEnvOrElse('PORT', 'amole')),
+         appHost: T.succeedWith(() => getEnvOrElse('PORT', '127.0.0.1')),
+         pgURL: T.succeedWith(() =>
             getEnvOrElse(
                'PORT',
                'postgres://guackamole:salaisuus@localhost:5432/guack-pg'
             )
          ),
-         close: msg => T.effectTotal(() => logInfo(msg)),
+         close: msg => T.succeedWith(() => logInfo(msg)),
       })
    ),
    M.make(_ => _.close('closing managed')),

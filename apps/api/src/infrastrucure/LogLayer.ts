@@ -21,12 +21,12 @@ const prodLog = pino({
 })
 
 export const LoggerLive = pipe(
-   T.effectTotal(
+   T.succeedWith(
       (): Logger => ({
-         logInfo: msg => T.effectTotal(() => prodLog.info(msg)),
-         logError: msg => T.effectTotal(() => prodLog.error(msg)),
-         logDebug: msg => T.effectTotal(() => prodLog.debug(msg)),
-         flush: T.effectTotal(() => prodLog.flush()),
+         logInfo: msg => T.succeedWith(() => prodLog.info(msg)),
+         logError: msg => T.succeedWith(() => prodLog.error(msg)),
+         logDebug: msg => T.succeedWith(() => prodLog.debug(msg)),
+         flush: T.succeedWith(() => prodLog.flush()),
       })
    ),
    M.make(_ => _.flush),

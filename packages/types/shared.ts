@@ -9,7 +9,6 @@ import {
    EncoderURI,
    opaque,
 } from '@effect-ts/morphic'
-import { UUID } from '@effect-ts/morphic/Algebra/Primitives'
 import { decode } from '@effect-ts/morphic/Decoder'
 import { flow } from '@effect-ts/system/Function'
 import { v4 } from 'uuid'
@@ -20,13 +19,13 @@ export function makeUuid() {
 
 const MIN = 1
 
-export const isNonEmptyString = (v: String): v is Branded<string, NonEmptyStringBrand> =>
+export const isNonEmptyString = (v: string): v is Branded<string, NonEmptyStringBrand> =>
    v.length >= MIN
 
 /**
- * A string of Min 1 and max 256KB characters
+ * A string of Min 1 and Max 256KB characters
  */
-const NonEmptyString0 = make(F =>
+const NonEmptyStringO = make(F =>
    F.refined(F.string(), isNonEmptyString, {
       name: 'NonEmptyString',
       conf: {
@@ -34,19 +33,20 @@ const NonEmptyString0 = make(F =>
             fc.module
                .string({ minLength: MIN })
                .map(x => x as Branded<string, NonEmptyStringBrand>),
+         //[DecoderURI]: withMessage(() => "is not a NonEmpty String"),
       },
    })
 )
-
-export const NonEmptyString = Object.assign(NonEmptyString0, {
-   parse: flow((s: string) => s, decode(NonEmptyString0)),
+export const NonEmptyString = Object.assign(NonEmptyStringO, {
+   parse: flow((s: string) => s, decode(NonEmptyStringO)),
 })
-
 export interface NonEmptyStringBrand {
    readonly NonEmptyString: unique symbol
 }
-
 export type NonEmptyString = AType<typeof NonEmptyString>
+
+export const UUID = make(F => F.uuid())
+export type UUID = AType<typeof UUID>
 
 const defaultVoid = Sy.succeed(constVoid())
 const defaultVoidThunk = () => defaultVoid
@@ -60,4 +60,5 @@ const Void_ = make(F =>
 )
 export type Void = void
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const Void = opaque<Void, Void>()(Void_ as any)
