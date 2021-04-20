@@ -19,61 +19,63 @@ import { Ord } from '@effect-ts/core/Ord'
 const encodeSurvey = flow(strict(Survey).shrink, Sy.chain(encode(Survey)))
 const runEncodeSurvey = flow(encodeSurvey, Sy.run)
 
-let surveys: Map.Map<UUID, SurveyE> = pipe(
-   [
-      Survey.create({
-         title: 'First survey' as NonEmptyString,
-         questions: [
-            SurveyQuestion.create({
-               title: 'q1' as NonEmptyString,
-               choices: [
-                  Choice.create({
-                     type: 'bar' as NonEmptyString,
-                     value: 'foo choice' as NonEmptyString,
-                  }),
-               ],
-               type: 'CheckBox' as NonEmptyString,
-            }),
-         ],
-      }),
-      Survey.create({
-         title: 'Second survey' as NonEmptyString,
-         questions: [],
-      }),
-      Survey.create({
-         title: 'Third survey' as NonEmptyString,
-         questions: [
-            SurveyQuestion.create({
-               title: 'q1' as NonEmptyString,
-               choices: [
-                  Choice.create({
-                     type: 'bar' as NonEmptyString,
-                     value: 'foo choice' as NonEmptyString,
-                  }),
-               ],
-               type: 'CheckBox' as NonEmptyString,
-            }),
-            SurveyQuestion.create({
-               title: 'q2' as NonEmptyString,
-               choices: [
-                  Choice.create({
-                     type: 'baz' as NonEmptyString,
-                     value: 'baz choice' as NonEmptyString,
-                  }),
-               ],
-               type: 'MultiChoice' as NonEmptyString,
-            }),
-         ],
-      })['|>'](Survey.activate),
-   ],
-   A.map(survey => [survey.id, runEncodeSurvey(survey)] as const),
-   Map.make
+const surveysRef = Ref.unsafeMakeRef<Map.Map<UUID, SurveyE>>(
+   pipe(
+      [
+         Survey.create({
+            title: 'First survey' as NonEmptyString,
+            questions: [
+               SurveyQuestion.create({
+                  title: 'q1' as NonEmptyString,
+                  choices: [
+                     Choice.create({
+                        type: 'bar' as NonEmptyString,
+                        value: 'foo choice' as NonEmptyString,
+                     }),
+                  ],
+                  type: 'CheckBox' as NonEmptyString,
+               }),
+            ],
+         }),
+         Survey.create({
+            title: 'Second survey' as NonEmptyString,
+            questions: [],
+         }),
+         Survey.create({
+            title: 'Third survey' as NonEmptyString,
+            questions: [
+               SurveyQuestion.create({
+                  title: 'q1' as NonEmptyString,
+                  choices: [
+                     Choice.create({
+                        type: 'bar' as NonEmptyString,
+                        value: 'foo choice' as NonEmptyString,
+                     }),
+                  ],
+                  type: 'CheckBox' as NonEmptyString,
+               }),
+               SurveyQuestion.create({
+                  title: 'q2' as NonEmptyString,
+                  choices: [
+                     Choice.create({
+                        type: 'baz' as NonEmptyString,
+                        value: 'baz choice' as NonEmptyString,
+                     }),
+                  ],
+                  type: 'MultiChoice' as NonEmptyString,
+               }),
+            ],
+         })['|>'](Survey.activate),
+      ],
+      A.map(survey => [survey.id, runEncodeSurvey(survey)] as const),
+      Map.make
+   )
 )
 
 const { decode: decodeSurvey } = strictDecoder(Survey)
 export function find(id: UUID) {
    return pipe(
-      T.succeedWith(() => O.fromNullable(surveys.get(id))),
+      surveysRef.get['|>'](T.map(surveys => O.fromNullable(surveys.get(id)))),
       EO.chain(flow(decodeSurvey, EO.fromEffect, T.orDie))
    )
 }
@@ -86,21 +88,24 @@ export function get(id: UUID) {
 }
 
 export const all = pipe(
-   T.succeedWith(() => [...surveys.values()] as const),
-   T.chain(T.forEach(decodeSurvey)),
+   surveysRef.get,
+   T.chain(surveys => T.forEach_(surveys.values(), decodeSurvey)),
    T.orDie
 )
 
 export function add(s: Survey) {
-   return T.succeedWith(() => {
-      surveys = surveys['|>'](Map.insert(s.id, runEncodeSurvey(s)))
-   })
+   return pipe(
+      T.structPar({ encS: encodeSurvey(s), surveys: surveysRef.get }),
+      T.chain(({ encS, surveys }) =>
+         surveysRef.set(surveys['|>'](Map.insert(s.id, encS)))
+      )
+   )
 }
 
 export function remove(s: Survey) {
-   return T.succeedWith(() => {
-      surveys = surveys['|>'](Map.remove(s.id))
-   })
+   return surveysRef.get['|>'](
+      T.chain(surveys => surveysRef.set(surveys['|>'](Map.remove(s.id))))
+   )
 }
 const orderRef = Ref.unsafeMakeRef<A.Array<UUID>>([])
 
