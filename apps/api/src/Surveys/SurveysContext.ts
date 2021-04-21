@@ -5,6 +5,7 @@ import { flow, pipe } from '@effect-ts/core/Function'
 import * as O from '@effect-ts/core/Option'
 import * as Sy from '@effect-ts/core/Sync'
 import * as Ref from '@effect-ts/core/Effect/Ref'
+import * as Chunk from '@effect-ts/core/Collections/Immutable/Chunk'
 import { UUID } from '@effect-ts/morphic/Algebra/Primitives'
 import { encode } from '@effect-ts/morphic/Encoder'
 import { strict } from '@effect-ts/morphic/Strict'
@@ -114,7 +115,7 @@ export const setOrder = orderRef.set
 
 export const allOrdered = pipe(
    T.structPar({ surveys: all, order: getOrder }),
-   T.map(({ order, surveys }) => orderSurveys(surveys, order))
+   T.map(({ order, surveys }) => orderSurveys(surveys['|>'](Chunk.toArray), order))
 )
 
 function orderSurveys(a: A.Array<Survey>, order: A.Array<UUID>) {
