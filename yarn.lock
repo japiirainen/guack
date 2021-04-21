@@ -1068,12 +1068,12 @@
   dependencies:
     "@date-io/core" "^2.10.7"
 
-"@effect-ts/core@^0.33.6":
-  version "0.33.7"
-  resolved "https://registry.yarnpkg.com/@effect-ts/core/-/core-0.33.7.tgz#90b7ebb5d54d3200346e4eb86b336728838f8d6c"
-  integrity sha512-tWWPJ/1U0JIH6sErVGxOeySktaP0mMJkGO6SyukkYoRB/uA4ECQ5pYyNZIrmsr1Y0h5aYT0453nGdwW/ZOAOfQ==
+"@effect-ts/core@^0.35.0":
+  version "0.35.3"
+  resolved "https://registry.yarnpkg.com/@effect-ts/core/-/core-0.35.3.tgz#a63690c0cd2d79782eb1d49b67cb8fcfbcc06c71"
+  integrity sha512-pjhnmXfmpSzzOvcl1J7YtP5l1VGaA+0B6EzzOdQpADW+FWk3iPEDJD+fPX8i8cLjMh6e9k9Sqn8GatUZ+czvcQ==
   dependencies:
-    "@effect-ts/system" "^0.30.7"
+    "@effect-ts/system" "^0.32.3"
 
 "@effect-ts/express@^0.16.0":
   version "0.16.0"
@@ -1095,10 +1095,10 @@
   resolved "https://registry.yarnpkg.com/@effect-ts/node/-/node-0.21.0.tgz#8874f6c7bfed3e1d36e2042c201995fb8aa546e4"
   integrity sha512-cso0Gfk8AWAN1MqIQvaC64pdaUArqA7zNShsRrrFKUygcK8KrYAGDlxem4KcsTrfzg7vhkZCrmAc4AfWtWF/+g==
 
-"@effect-ts/system@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@effect-ts/system/-/system-0.30.7.tgz#b367b1db1decaac13f1bdd8442c5e6904efae40b"
-  integrity sha512-vDFoHc6CtH0qi9rzNjwwi6QV3rnBxFW79tGs/CDr5fLtn0WeS4KlJihexyo3IKjyqBJDODCeRzstmUXp6NfcNg==
+"@effect-ts/system@^0.32.3":
+  version "0.32.3"
+  resolved "https://registry.yarnpkg.com/@effect-ts/system/-/system-0.32.3.tgz#d9ead207ceb50cb99066498935f9054b998550e1"
+  integrity sha512-WgRd5UcvMrIyf9UG+FrfFLXPVTitZ9dbYrcHB3jh1HNixVWBimjCwD3o8E0mmqiuQPmfBd1N1/GuD6p6Npsajw==
 
 "@effect-ts/tracing-plugin@^0.10.1":
   version "0.10.1"
@@ -10328,6 +10328,11 @@ redent@^3.0.0:
   dependencies:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
+
+redoc-express@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redoc-express/-/redoc-express-1.0.0.tgz#2b4f684293adc83f5af3461b583f7f9350bd0e0f"
+  integrity sha512-N/0/WrA6U2rJc9hzLy2Jh2CHrQttIcW02jE4xGCiKkU40uTlpFTcEfu9bpsJlTcpffPXVNhhaIbTwz8kxz+M5A==
 
 redux@^4.0.0, redux@^4.0.4:
   version "4.0.5"
