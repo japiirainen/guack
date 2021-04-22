@@ -1,0 +1,467 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@guack/api",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/surveys/:id": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "active": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "expires": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "questions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "choices": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "required": {
+                                  "type": "boolean"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "required",
+                                "type",
+                                "value"
+                              ]
+                            }
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "required": [
+                          "choices",
+                          "createdAt",
+                          "id",
+                          "title",
+                          "type",
+                          "updatedAt"
+                        ]
+                      }
+                    },
+                    "startDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  },
+                  "required": [
+                    "active",
+                    "createdAt",
+                    "expires",
+                    "id",
+                    "questions",
+                    "startDate",
+                    "title",
+                    "updatedAt"
+                  ],
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValidationError"
+          }
+        }
+      },
+      "patch": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "active": {
+                    "type": "boolean"
+                  },
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "choices": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "required": {
+                                "type": "boolean"
+                              },
+                              "type": {
+                                "type": "string"
+                              },
+                              "value": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "required",
+                              "type",
+                              "value"
+                            ]
+                          }
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      },
+                      "required": [
+                        "choices",
+                        "createdAt",
+                        "id",
+                        "title",
+                        "type",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "active",
+                  "questions",
+                  "title"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Empty"
+          },
+          "400": {
+            "description": "ValidationError"
+          },
+          "404": {
+            "description": "NotFoundError"
+          }
+        }
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Empty"
+          },
+          "400": {
+            "description": "ValidationError"
+          },
+          "404": {
+            "description": "NotFoundError"
+          }
+        }
+      }
+    },
+    "/surveys": {
+      "get": {
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "active": {
+                            "type": "boolean"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "expires": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "questions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "choices": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "required": {
+                                        "type": "boolean"
+                                      },
+                                      "type": {
+                                        "type": "string"
+                                      },
+                                      "value": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "required",
+                                      "type",
+                                      "value"
+                                    ]
+                                  }
+                                },
+                                "createdAt": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                },
+                                "id": {
+                                  "type": "string",
+                                  "format": "uuid"
+                                },
+                                "title": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "updatedAt": {
+                                  "type": "string",
+                                  "format": "date-time"
+                                }
+                              },
+                              "required": [
+                                "choices",
+                                "createdAt",
+                                "id",
+                                "title",
+                                "type",
+                                "updatedAt"
+                              ]
+                            }
+                          },
+                          "startDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "nullable": true
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "required": [
+                          "active",
+                          "createdAt",
+                          "expires",
+                          "id",
+                          "questions",
+                          "startDate",
+                          "title",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "items"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValidationError"
+          }
+        }
+      },
+      "post": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "title"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ValidationError"
+          }
+        }
+      }
+    },
+    "/surveys-order": {
+      "post": {
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "order": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  }
+                },
+                "required": [
+                  "order"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Empty"
+          },
+          "400": {
+            "description": "ValidationError"
+          }
+        }
+      }
+    }
+  }
+}

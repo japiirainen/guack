@@ -11,6 +11,8 @@ import * as Ex from '@effect-ts/express'
 import * as N from '@effect-ts/node/Runtime'
 import { urlencoded, json } from 'body-parser'
 import cors from 'cors'
+import redoc from 'redoc-express'
+import { setup, serve } from 'swagger-ui-express'
 
 import { routes as surveyRoutes } from './Surveys/routes'
 import { AppConfigLive, config } from './infrastrucure/ConfigLayer'
@@ -24,11 +26,49 @@ const {
    application: { HOST, NAME, PORT },
 } = config
 
+const readOpenApiDoc = T.effectAsync(cb =>
+   fs.readFile('./openapi.json', 'utf-8', (err, d) =>
+      err ? cb(T.fail(err)) : cb(T.succeed(d))
+   )
+)['|>'](T.orDie)
+
 const program = pipe(
    T.tuple(
       Ex.use(Ex.classic(cors())),
       Ex.use(Ex.classic(urlencoded({ extended: false }))),
       Ex.use(Ex.classic(json()))
+   ),
+   T.zipRight(
+      T.tuple(
+         Ex.get('/openapi.json', (_req, res) =>
+            readOpenApiDoc['|>'](T.map(js => res.send(js)))
+         ),
+         Ex.get(
+            '/docs',
+            Ex.classic(
+               redoc({
+                  title: 'API Docs',
+                  specUrl: './openapi.json',
+               })
+            )
+         ),
+         //@ts-ignore
+         Ex.use(...serve.map(Ex.classic)),
+         Ex.get('/swagger', (req, res, next) =>
+            readOpenApiDoc['|>'](
+               T.chain(docs =>
+                  T.succeedWith(() =>
+                     //@ts-ignore
+                     setup(docs, { swaggerOptions: { url: './openapi.json' } })(
+                        req,
+                        res,
+                        next
+                     )
+                  )
+               )
+            )
+         )
+      )
    ),
    T.zipRight(surveyRoutes),
    T.tap(rdescs =>
@@ -85,16 +125,13 @@ const program = pipe(
          T.tap(_ =>
             T.effectAsync(cb =>
                fs.writeFile(
-                  './schema.json',
+                  './openapi.json',
                   JSON.stringify(_, undefined, 2),
                   'utf-8',
                   err => (err ? cb(T.fail(err)) : cb(T.succeed(constVoid())))
                )
             )['|>'](T.orDie)
-         ),
-         T.map(_ => {
-            console.log('Available routes: ', JSON.stringify(_, undefined, 2))
-         })
+         )
       )
    ),
    T.tap(() => logInfo(`${NAME.toUpperCase()} running on ${HOST}:${PORT}`)),
