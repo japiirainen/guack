@@ -25,6 +25,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                X.succeed({
                   type: 'string',
                   format: 'date-time',
+                  title: config?.name,
+                  ...config?.extensions?.openapiMeta,
                }),
                env,
                {}
@@ -45,6 +47,12 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
             X.SchemaApplyConfig(config?.conf)(
                X.succeed({
                   type: 'string',
+                  title: config?.name,
+                  ...config?.extensions?.openapiMeta,
+                  //minLength
+                  //maxLength
+                  // format; "uri"
+                  // pattern regex
                }),
                env,
                {}
@@ -55,6 +63,10 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
             X.SchemaApplyConfig(config?.conf)(
                X.succeed({
                   type: 'number',
+                  title: config?.name,
+                  ...config?.extensions?.openapiMeta,
+                  // minimum
+                  // maximum
                }),
                env,
                {}
@@ -88,6 +100,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                X.succeed({
                   type: 'number',
                   enum: [_],
+                  title: config?.name,
+                  ...config?.extensions?.openapiMeta,
                }),
                env,
                {}
@@ -101,6 +115,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      type: typeof x === 'string' ? 'string' : 'number',
                      description: `${x}`,
                      enum: [x] as any,
+                     title: config?.name,
+                     ...config?.extensions?.openapiMeta,
                   })),
                }),
                env,
@@ -113,6 +129,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                X.succeed({
                   type: 'string',
                   enum: Object.keys(_keys),
+                  title: config?.name,
+                  ...config?.extensions?.openapiMeta,
                }),
                env,
                {}
@@ -128,6 +146,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      X.succeed({
                         ...a,
                         nullable: true,
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -153,6 +173,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      X.succeed({
                         ...a,
                         nullable: true,
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -171,6 +193,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      X.succeed({
                         type: 'array',
                         items,
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -189,6 +213,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      X.succeed({
                         type: 'array',
                         items,
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -205,6 +231,9 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                      X.succeed({
                         type: 'array',
                         items,
+                        minItems: 1,
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -228,6 +257,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                X.succeed({
                   type: 'string',
                   format: 'uuid',
+                  ...(config?.name ? { title: config?.name } : undefined),
+                  ...config?.extensions?.openapiMeta,
                }),
                env,
                {}
@@ -241,6 +272,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                   X.chain(({ a, e }) =>
                      X.succeed({
                         oneOf: [e, a],
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),
@@ -267,6 +300,8 @@ export const SchemaPrimitiveInterpreter = interpreter<X.SchemaURI, PrimitivesURI
                               },
                            },
                         ],
+                        ...(config?.name ? { title: config?.name } : undefined),
+                        ...config?.extensions?.openapiMeta,
                      })
                   )
                ),

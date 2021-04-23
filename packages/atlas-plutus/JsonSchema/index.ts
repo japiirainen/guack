@@ -96,6 +96,9 @@ export const BooleanSchema = (p: { description?: string }) => ({
 export interface ArraySchema extends DescriptionSchema {
    type: 'array'
    items: SubSchema | A.Array<SubSchema>
+   minItems?: number
+   maxItems?: number
+   description?: string
 }
 
 export const ArraySchema = (p: {

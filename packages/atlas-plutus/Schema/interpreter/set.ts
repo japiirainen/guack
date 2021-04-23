@@ -14,7 +14,15 @@ export const SchemaSetInterpreter = interpreter<X.SchemaURI, SetURI>()(() => ({
                X.SchemaApplyConfig(config?.conf)(
                   pipe(
                      Schema,
-                     X.chain(items => X.succeed({ type: 'array', items }))
+                     X.chain(items =>
+                        X.succeed({
+                           type: 'array',
+                           items,
+                           description: 'Unique Set',
+                           title: config?.name,
+                           ...config?.extensions?.openapiMeta,
+                        })
+                     )
                   ),
                   env,
                   {
