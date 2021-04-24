@@ -9,6 +9,22 @@ dotenv.config()
 import { logInfo } from './LogLayer'
 import { getEnvOrElse } from './utils'
 
+export class MissingEnvVar {
+   readonly _tag = 'MissingEnvVar'
+   constructor(readonly key: string) {}
+}
+
+export function readEnv(key: string): T.UIO<string> {
+   return T.suspend(() => {
+      const value = process.env[key]
+
+      if (!value) {
+         return T.die(new MissingEnvVar(key))
+      }
+      return T.succeed(value)
+   })
+}
+
 export interface AppConfig {
    appPort: T.UIO<string>
    appName: T.UIO<string>
@@ -22,15 +38,10 @@ export const AppConfig = tag<AppConfig>()
 export const AppConfigLive = pipe(
    T.succeedWith(
       (): AppConfig => ({
-         appPort: T.succeedWith(() => getEnvOrElse('PORT', '4200')),
-         appName: T.succeedWith(() => getEnvOrElse('PORT', 'amole')),
-         appHost: T.succeedWith(() => getEnvOrElse('PORT', '127.0.0.1')),
-         pgURL: T.succeedWith(() =>
-            getEnvOrElse(
-               'PORT',
-               'postgres://guackamole:salaisuus@localhost:5432/guack-pg'
-            )
-         ),
+         appPort: readEnv('PORT'),
+         appName: readEnv('NAME'),
+         appHost: readEnv('HOST'),
+         pgURL: readEnv('DATABASE_URL'),
          close: msg => T.succeedWith(() => logInfo(msg)),
       })
    ),
