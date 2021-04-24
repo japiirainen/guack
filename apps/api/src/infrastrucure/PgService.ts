@@ -5,7 +5,7 @@ import { Has, tag } from '@effect-ts/core/Has'
 import * as L from '@effect-ts/core/Effect/Layer'
 import { _A } from '@effect-ts/core/Utils'
 import { pgURL } from './ConfigLayer'
-import { literal } from '@effect-ts/core/Function'
+import { literal, pipe } from '@effect-ts/core/Function'
 
 export const makePgPoolConfig = T.gen(function* (_) {
    const connectionString = yield* _(pgURL)
@@ -33,3 +33,37 @@ export const makePgPool = pipe(
    ),
    M.makeExit(({ pool }) => T.promise(() => pool.end()))
 )
+
+export interface PgPool extends _A<typeof makePgPool> {}
+export const PgPool = tag<PgPool>()
+
+export const LivePgPool = L.fromManaged(PgPool)(makePgPool)
+export const LivePg = LivePgPoolConfig['>+>'](LivePgPool)
+
+export const makePgConnection = M.gen(function* (_) {
+   const { pool } = yield* _(PgPool)
+
+   const connection = yield* _(
+      pipe(
+         T.promise(() => pool.connect()),
+         M.makeExit(client => T.succeedWith(() => client.release()))
+      )
+   )
+
+   return {
+      _tag: literal('PgConnection'),
+      connection,
+   }
+})
+
+export interface PgConnection extends _A<typeof makePgConnection> {}
+export const PgConnection = tag<PgConnection>()
+
+export function provideLivePgConnection<R, E, A>(
+   self: T.Effect<R & Has<PgConnection>, E, A>
+) {
+   return pipe(
+      makePgConnection,
+      M.use(connection => T.provideService(PgConnection)(connection)(self))
+   )
+}

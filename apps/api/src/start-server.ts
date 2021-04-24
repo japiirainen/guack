@@ -21,6 +21,7 @@ import { logInfo, LoggerLive } from './infrastrucure/LogLayer'
 import { makeSchema } from './infrastrucure/routing'
 
 import pkg from 'package.json'
+import { LivePg } from './infrastrucure/PgService'
 
 const {
    application: { HOST, NAME, PORT },
@@ -139,6 +140,6 @@ const program = pipe(
 )
 
 const ExpressLive = Ex.LiveExpress(HOST, +PORT)
-const ProgramLive = L.all(LoggerLive, AppConfigLive, ExpressLive)
+const ProgramLive = LoggerLive['+++'](AppConfigLive)['+++'](ExpressLive)['+++'](LivePg)
 
 pipe(program, T.provideSomeLayer(ProgramLive), N.runMain)
